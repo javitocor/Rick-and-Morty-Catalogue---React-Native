@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Image
+  Image,
+  ImageBackground
 } from 'react-native';
 import { TouchableOpacity} from 'react-native-gesture-handler';
 import { Entypo } from '@expo/vector-icons';
@@ -72,7 +73,7 @@ function Header(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.center}>
-        <Image source={require('../assets/images/logo.png')} resizeMode="cover" style={styles.image} />
+        <ImageBackground source={require('../assets/images/logo.png')} resizeMode="cover" style={styles.image} />
       </View>
       <View style={styles.right}>
         <Image source={require('../assets/images/icon.png')} resizeMode="cover" style={styles.imageIcon} />

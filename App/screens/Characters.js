@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, {useEffect} from 'react';
 import {
   View,
@@ -6,7 +7,8 @@ import {
   Dimensions,
   FlatList,
   ImageBackground,
-  ActivityIndicator
+  ActivityIndicator,
+  Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -32,6 +34,22 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     marginTop: 100,
   },
+  content: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent:'center',
+    marginTop: 10,
+  },
+  text: {
+    fontWeight: 'bold',
+    color: colors.green,
+    fontSize: 22,
+    textAlign: 'center',
+    marginBottom: 20,
+    textDecorationLine: 'underline',
+    textDecorationColor: colors.green,
+  },
 });
 
 const Characters = (props) => {
@@ -49,11 +67,14 @@ const Characters = (props) => {
         {props.characters.pending ? (
           <ActivityIndicator color={colors.yellow} size="large" style={styles.waiting} />
           ):(
-            <FlatList                
-              data={charactersList}
-              renderItem={({ item }) => (<CharacterDisplay key={item} item={item} />)}
-              keyExtractor={item => item.url}
-            />
+            <View style={styles.content}>
+              <Text syle={styles.text}>CHARACTERS</Text>
+              <FlatList                
+                data={charactersList}
+                renderItem={({ item }) => (<CharacterDisplay key={item} item={item} />)}
+                keyExtractor={item => item.url}
+              />
+            </View>
         )}
       </ImageBackground>
     </View>

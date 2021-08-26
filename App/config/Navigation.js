@@ -82,7 +82,7 @@ function TabNavigation() {
         return <Ionicons name={iconName} size={size} color={color} />;
       },
       tabBarActiveTintColor: 'yellow',
-      tabBarInactiveTintColor: 'grey',
+      tabBarInactiveTintColor: 'green',
     })}
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />

@@ -86,6 +86,38 @@ export const SearchCall = (resource, param, value) => async dispatch => {
     return data;
   } catch (error) {
     dispatch(fromSearches.getSearchesError(error));
-  }
+  }  
+};
+
+export const updateCall = (route) => async dispatch => {
+  const Url = route;
   
+  try {
+    if(route==='episode'){
+      dispatch(fromEpisodes.updateEpisodesPending());
+    } else if (route==='location') {
+      dispatch(fromLocations.updateLocationsPending());
+    } else if (route==='character'){
+      dispatch(fromCharacters.updateCharactersPending());
+    }         
+
+    const response = await fetch(Url, { mode: 'cors'});
+    const data = await response.json();
+    if(route==='episode'){
+      dispatch(fromEpisodes.updateEpisodes(data));
+    } else if (route==='location') {
+      dispatch(fromLocations.updateLocations(data));
+    } else if (route==='character'){
+      dispatch(fromCharacters.updateCharacters(data));
+    }     
+    return data;
+  } catch (error) {
+    if(route==='episode'){
+      dispatch(fromEpisodes.updateEpisodesError(error));
+    } else if (route==='location') {
+      dispatch(fromLocations.updateLocationsError(error));
+    } else if (route==='character'){
+      dispatch(fromCharacters.updateCharactersError(error));
+    } 
+  }
 };

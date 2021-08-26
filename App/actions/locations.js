@@ -1,6 +1,7 @@
 import {
   GET_SINGLE_LOCATION, GET_SINGLE_LOCATION_PENDING, GET_SINGLE_LOCATION_ERROR,
   GET_ALL_LOCATIONS, GET_ALL_LOCATIONS_PENDING, GET_ALL_LOCATIONS_ERROR,
+  UPDATE_LOCATIONS, UPDATE_LOCATIONS_PENDING, UPDATE_LOCATIONS_ERROR
 } from '../constants/constants';
 
 export const getAllLocations = locationsList => ({
@@ -31,5 +32,19 @@ export const getSingleLocationPending = () => ({
 
 export const getSingleLocationError = error => ({
   type: GET_SINGLE_LOCATION_ERROR,
+  error,
+});
+
+export const updateLocations = locationsList => ({
+  type: UPDATE_LOCATIONS,
+  locationsList,
+});
+
+export const updateLocationsPending = () => ({
+  type: UPDATE_LOCATIONS_PENDING,
+});
+
+export const updateLocationsError = error => ({
+  type: UPDATE_LOCATIONS_ERROR,
   error,
 });

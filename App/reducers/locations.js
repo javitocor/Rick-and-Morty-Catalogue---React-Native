@@ -2,6 +2,7 @@ import {
   initialStateLocations,
   GET_SINGLE_LOCATION, GET_SINGLE_LOCATION_PENDING, GET_SINGLE_LOCATION_ERROR,
   GET_ALL_LOCATIONS, GET_ALL_LOCATIONS_PENDING, GET_ALL_LOCATIONS_ERROR,
+  UPDATE_LOCATIONS, UPDATE_LOCATIONS_PENDING, UPDATE_LOCATIONS_ERROR
 } from '../constants/constants';
 
 const locationReducer = (state = initialStateLocations, action) => {
@@ -43,6 +44,24 @@ const locationReducer = (state = initialStateLocations, action) => {
         pending: false,
         error: action.error,
       };
+      case UPDATE_LOCATIONS_ERROR:
+        return {
+          ...state,
+          pending: false,
+          error:action.error,
+        }
+      case UPDATE_LOCATIONS_PENDING:
+        return {
+          ...state,
+          pending: true,
+        }
+      case UPDATE_LOCATIONS:
+        return {
+          ...state,
+          pending: false,
+          next: action.data.info.next,
+          locationsList: [...state.locationsList, ...action.data.results],
+        };
     default:
       return state;
   }

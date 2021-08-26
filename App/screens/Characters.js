@@ -8,11 +8,12 @@ import {
   FlatList,
   ImageBackground,
   ActivityIndicator,
-  Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import HeaderList from '../components/HeaderList';
+import FooterList from '../components/FooterList';
 import CharacterDisplay from '../components/CharacterDisplay';
 import {AllCall} from '../helpers/APIcalls';
 
@@ -36,7 +37,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent:'center',
     marginTop: 10,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 });
 
 const Characters = (props) => {
-  const {getAllCharacters} = props;
+  const {getAllCharacters, navigation} = props;
   const {charactersList} = props.characters; 
 
   useEffect(() => {
@@ -68,11 +68,13 @@ const Characters = (props) => {
           <ActivityIndicator color={colors.yellow} size="large" style={styles.waiting} />
           ):(
             <View style={styles.content}>
-              <Text syle={styles.text}>CHARACTERS</Text>
               <FlatList                
                 data={charactersList}
-                renderItem={({ item }) => (<CharacterDisplay key={item} item={item} />)}
+                renderItem={({ item }) => (<CharacterDisplay key={item} item={item} onButtonPress={navigation.navigate('CharacterDetail', {title: item.name, id: item.id})} />)}
                 keyExtractor={item => item.url}
+                ListHeaderComponent={<HeaderList category="characters" />}
+                ListFooterComponent={props.characters.next !== null ? <FooterList /> : <View />}
+                stickyHeaderIndices={[0]}
               />
             </View>
         )}

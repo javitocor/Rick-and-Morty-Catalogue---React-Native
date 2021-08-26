@@ -1,6 +1,7 @@
 import {
   GET_SINGLE_EPISODE, GET_SINGLE_EPISODE_PENDING, GET_SINGLE_EPISODE_ERROR,
   GET_ALL_EPISODES, GET_ALL_EPISODES_PENDING, GET_ALL_EPISODES_ERROR,
+  UPDATE_EPISODES, UPDATE_EPISODES_PENDING, UPDATE_EPISODES_ERROR
 } from '../constants/constants';
 
 export const getAllEpisodes = episodesList => ({
@@ -31,5 +32,19 @@ export const getSingleEpisodePending = () => ({
 
 export const getSingleEpisodeError = error => ({
   type: GET_SINGLE_EPISODE_ERROR,
+  error,
+});
+
+export const updateEpisodes = episodesList => ({
+  type: UPDATE_EPISODES,
+  episodesList,
+});
+
+export const updateEpisodesPending = () => ({
+  type: UPDATE_EPISODES_PENDING,
+});
+
+export const updateEpisodesError = error => ({
+  type: UPDATE_EPISODES_ERROR,
   error,
 });

@@ -1,6 +1,7 @@
 import {
   GET_SINGLE_CHARACTER, GET_SINGLE_CHARACTER_PENDING, GET_SINGLE_CHARACTER_ERROR,
   GET_ALL_CHARACTERS, GET_ALL_CHARACTERS_PENDING, GET_ALL_CHARACTERS_ERROR,
+  UPDATE_CHARACTERS, UPDATE_CHARACTERS_PENDING, UPDATE_CHARACTERS_ERROR
 } from '../constants/constants';
 
 export const getAllCharacters = charactersList => ({
@@ -31,5 +32,19 @@ export const getSingleCharacterPending = () => ({
 
 export const getSingleCharacterError = error => ({
   type: GET_SINGLE_CHARACTER_ERROR,
+  error,
+});
+
+export const updateCharacters = data => ({
+  type: UPDATE_CHARACTERS,
+  data,
+});
+
+export const updateCharactersPending = () => ({
+  type: UPDATE_CHARACTERS_PENDING,
+});
+
+export const updateCharactersError = error => ({
+  type: UPDATE_CHARACTERS_ERROR,
   error,
 });

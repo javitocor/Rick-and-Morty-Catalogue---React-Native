@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import Home from '../screens/Home';
 import Episodes from '../screens/Episodes';
 import EpisodeDetail from '../screens/EpisodeDetail';
@@ -13,6 +14,7 @@ import CharacterDetail from '../screens/CharacterDetail';
 import Search from '../screens/Search';
 import SearchDetail from '../screens/SearchDetail';
 import Header from '../components/Header';
+import colors from '../constants/colors';
 
 const EpisodeStack = createStackNavigator();
 
@@ -63,7 +65,8 @@ const Tab = createBottomTabNavigator();
 function TabNavigation() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route }) => ({        
+      initialRouteName: "Home",
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
@@ -72,7 +75,7 @@ function TabNavigation() {
         } else if (route.name === 'Episodes') {
           iconName = focused ? 'albums' : 'albums-outline';
         } else if (route.name === 'Locations') {
-          iconName = focused ? 'ios-location' : 'ios-location-outline';
+          iconName = focused ? 'locate' : 'locate-outline';
         } else if (route.name === 'Characters') {
           iconName = focused ? 'people-circle' : 'people-circle-outline';
         } else if (route.name === 'Search') {
@@ -81,8 +84,12 @@ function TabNavigation() {
 
         return <Ionicons name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: 'yellow',
-      tabBarInactiveTintColor: 'green',
+      tabBarActiveTintColor: colors.yellow,
+      tabBarInactiveTintColor: colors.green,
+      tabBarHideOnKeyboard: true,
+      tabBarActiveBackgroundColor: colors.green,
+      tabBarInactiveBackgroundColor: colors.yellow,
+      tabBarItemStyle: {borderColor: colors.blue, borderWidth:1,},
     })}
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />

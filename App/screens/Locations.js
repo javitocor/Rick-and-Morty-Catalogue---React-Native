@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, {useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -16,7 +16,7 @@ import HeaderList from '../components/HeaderList';
 import FooterList from '../components/FooterList';
 import LocationDisplay from '../components/LocationDisplay';
 import {AllCall, UpdateCall} from '../helpers/APIcalls';
-
+import RowSeparator from '../components/RowSeparator';
 import colors from '../constants/colors';
 
 const screen = Dimensions.get('window');
@@ -44,17 +44,19 @@ const styles = StyleSheet.create({
 
 const Locations = (props) => {
   const {getAllLocations, updateLocations, navigation} = props;
-  const {locationsList} = props.locations; 
+  const {locationsList, next} = props.locations; 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getAllLocations('location');
+    setLoading(false);
   }, []);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.black} />
       <ImageBackground source={require('../assets/images/background4.jpg')} resizeMode="cover" style={styles.bgimage}>
-        {props.locations.pending ? (
+        {loading ? (
           <ActivityIndicator color={colors.yellow} size="large" style={styles.waiting} />
           ):(
             <View style={styles.content}>
@@ -63,7 +65,8 @@ const Locations = (props) => {
                 renderItem={({ item }) => (<LocationDisplay key={item} item={item} onButtonPress={()=>{navigation.navigate('LocationDetail', {title: item.name, id: item.id})}} />)}
                 keyExtractor={item => item.url}
                 ListHeaderComponent={<HeaderList category="LOCATIONS" />}
-                ListFooterComponent={props.locations.next !== null ? <FooterList onButtonPress={async () => updateLocations(props.locations.next)} /> : <></>}
+                ListFooterComponent={next !== null ? <FooterList loading={props.locations.pending} onButtonPress={async () => updateLocations(next)} /> : <></>}
+                ItemSeparatorComponent={() => <RowSeparator />}
               />
             </View>
         )}

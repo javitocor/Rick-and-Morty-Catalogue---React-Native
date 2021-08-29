@@ -84,18 +84,18 @@ function TabNavigation() {
 
         return <Ionicons name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: colors.yellow,
-      tabBarInactiveTintColor: colors.green,
+      tabBarActiveTintColor: colors.green,
+      tabBarInactiveTintColor: colors.blue,
       tabBarHideOnKeyboard: true,
-      tabBarActiveBackgroundColor: colors.green,
-      tabBarInactiveBackgroundColor: colors.yellow,
-      tabBarItemStyle: {borderColor: colors.blue, borderWidth:1,},
+      tabBarActiveBackgroundColor: colors.blue,
+      tabBarInactiveBackgroundColor: colors.green,
+      tabBarItemStyle: {borderColor: colors.yellow, borderWidth:1,},
     })}
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Tab.Screen name="Characters" component={CharacterStackScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Episodes" component={EpisodeStackScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Location" component={LocationStackScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Locations" component={LocationStackScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Search" component={SearchStackScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );

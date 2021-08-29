@@ -35,9 +35,9 @@ export const getSingleEpisodeError = error => ({
   error,
 });
 
-export const updateEpisodes = episodesList => ({
+export const updateEpisodes = data => ({
   type: UPDATE_EPISODES,
-  episodesList,
+  data,
 });
 
 export const updateEpisodesPending = () => ({

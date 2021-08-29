@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import HeaderList from '../components/HeaderList';
 import FooterList from '../components/FooterList';
 import CharacterDisplay from '../components/CharacterDisplay';
-import {AllCall} from '../helpers/APIcalls';
+import {AllCall, UpdateCall} from '../helpers/APIcalls';
 
 import colors from '../constants/colors';
 
@@ -24,11 +24,13 @@ const screen = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    marginTop: screen.height*0.1
   },
   bgimage: {
     flex: 1,
+    width: screen.width*1,
     height: screen.height * 1,
+    alignItems: 'center',
+    justifyContent:'center',
   },
   waiting:{
     alignItems: 'center',
@@ -36,45 +38,36 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent:'center',
-    marginTop: 10,
-  },
-  text: {
-    fontWeight: 'bold',
-    color: colors.green,
-    fontSize: 22,
-    textAlign: 'center',
-    marginBottom: 20,
-    textDecorationLine: 'underline',
-    textDecorationColor: colors.green,
-  },
+    width: screen.width*0.85
+  }
 });
 
 const Characters = (props) => {
-  const {getAllCharacters, navigation} = props;
-  const {charactersList} = props.characters; 
+  const {getAllCharacters, navigation, updateCharacters} = props;
+  const {charactersList} = props.characters;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getAllCharacters('character');
+    setLoading(false);
   }, []);
+
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.black} />
       <ImageBackground source={require('../assets/images/background4.jpg')} resizeMode="cover" style={styles.bgimage}>
-        {props.characters.pending ? (
+        {loading ? (
           <ActivityIndicator color={colors.yellow} size="large" style={styles.waiting} />
           ):(
             <View style={styles.content}>
               <FlatList                
                 data={charactersList}
-                renderItem={({ item }) => (<CharacterDisplay key={item} item={item} onButtonPress={navigation.navigate('CharacterDetail', {title: item.name, id: item.id})} />)}
+                renderItem={({ item }) => (<CharacterDisplay key={item} item={item} onButtonPress={()=>{navigation.navigate('CharacterDetail', {title: item.name, id: item.id})}} />)}
                 keyExtractor={item => item.url}
-                ListHeaderComponent={<HeaderList category="characters" />}
-                ListFooterComponent={props.characters.next !== null ? <FooterList /> : <View />}
-                stickyHeaderIndices={[0]}
+                showsHorizontalScrollIndicator={false}
+                ListHeaderComponent={<HeaderList category="CHARACTERS" />}
+                ListFooterComponent={props.characters.next !== null ? <FooterList loading={props.characters.pending} onButtonPress={async () => updateCharacters(props.characters.next)} /> : <></>}                
               />
             </View>
         )}
@@ -93,6 +86,7 @@ Characters.propTypes = {
     charactersList: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   getAllCharacters: PropTypes.func.isRequired,
+  updateCharacters: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -108,6 +102,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllCharacters: AllCall,
+  updateCharacters: UpdateCall
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Characters);

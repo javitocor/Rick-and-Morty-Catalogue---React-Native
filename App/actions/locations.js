@@ -35,9 +35,9 @@ export const getSingleLocationError = error => ({
   error,
 });
 
-export const updateLocations = locationsList => ({
+export const updateLocations = data => ({
   type: UPDATE_LOCATIONS,
-  locationsList,
+  data,
 });
 
 export const updateLocationsPending = () => ({

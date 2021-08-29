@@ -8,13 +8,14 @@ import {
   FlatList,
   ImageBackground,
   ActivityIndicator,
-  Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import HeaderList from '../components/HeaderList';
+import FooterList from '../components/FooterList';
 import LocationDisplay from '../components/LocationDisplay';
-import {AllCall} from '../helpers/APIcalls';
+import {AllCall, UpdateCall} from '../helpers/APIcalls';
 
 import colors from '../constants/colors';
 
@@ -23,11 +24,13 @@ const screen = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    marginTop: screen.height*0.1
   },
   bgimage: {
     flex: 1,
+    width: screen.width*1,
     height: screen.height * 1,
+    alignItems: 'center',
+    justifyContent:'center',
   },
   waiting:{
     alignItems: 'center',
@@ -35,25 +38,12 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   content: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent:'center',
-    marginTop: 10,
-  },
-  text: {
-    fontWeight: 'bold',
-    color: colors.green,
-    fontSize: 22,
-    textAlign: 'center',
-    marginBottom: 20,
-    textDecorationLine: 'underline',
-    textDecorationColor: colors.green,
-  },
+    width: screen.width*0.85
+  }
 });
 
 const Locations = (props) => {
-  const {getAllLocations} = props;
+  const {getAllLocations, updateLocations, navigation} = props;
   const {locationsList} = props.locations; 
 
   useEffect(() => {
@@ -68,11 +58,12 @@ const Locations = (props) => {
           <ActivityIndicator color={colors.yellow} size="large" style={styles.waiting} />
           ):(
             <View style={styles.content}>
-              <Text syle={styles.text}>CHARACTERS</Text>
               <FlatList                
                 data={locationsList}
-                renderItem={({ item }) => (<LocationDisplay key={item} item={item} />)}
+                renderItem={({ item }) => (<LocationDisplay key={item} item={item} onButtonPress={()=>{navigation.navigate('LocationDetail', {title: item.name, id: item.id})}} />)}
                 keyExtractor={item => item.url}
+                ListHeaderComponent={<HeaderList category="LOCATIONS" />}
+                ListFooterComponent={props.locations.next !== null ? <FooterList onButtonPress={async () => updateLocations(props.locations.next)} /> : <></>}
               />
             </View>
         )}
@@ -91,6 +82,7 @@ Locations.propTypes = {
     locationsList: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   getAllLocations: PropTypes.func.isRequired,
+  updateLocations: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -106,6 +98,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllLocations: AllCall,
+  updateLocations: UpdateCall
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Locations);

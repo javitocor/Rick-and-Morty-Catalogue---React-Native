@@ -89,34 +89,34 @@ export const SearchCall = (resource, param, value) => async dispatch => {
   }  
 };
 
-export const updateCall = (route) => async dispatch => {
+export const UpdateCall = (route) => async dispatch => {
   const Url = route;
   
   try {
-    if(route==='episode'){
+    if(route.includes("episode")){
       dispatch(fromEpisodes.updateEpisodesPending());
-    } else if (route==='location') {
+    } else if (route.includes("location")) {
       dispatch(fromLocations.updateLocationsPending());
-    } else if (route==='character'){
+    } else if (route.includes("character")){
       dispatch(fromCharacters.updateCharactersPending());
     }         
 
     const response = await fetch(Url, { mode: 'cors'});
     const data = await response.json();
-    if(route==='episode'){
+    if(route.includes("episode")){
       dispatch(fromEpisodes.updateEpisodes(data));
-    } else if (route==='location') {
+    } else if (route.includes("location")) {
       dispatch(fromLocations.updateLocations(data));
-    } else if (route==='character'){
+    } else if (route.includes("character")){
       dispatch(fromCharacters.updateCharacters(data));
     }     
     return data;
   } catch (error) {
-    if(route==='episode'){
+    if(route.includes("episode")){
       dispatch(fromEpisodes.updateEpisodesError(error));
-    } else if (route==='location') {
+    } else if (route.includes("location")) {
       dispatch(fromLocations.updateLocationsError(error));
-    } else if (route==='character'){
+    } else if (route.includes("character")){
       dispatch(fromCharacters.updateCharactersError(error));
     } 
   }

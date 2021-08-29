@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,13 +8,13 @@ import {
   FlatList,
   ImageBackground,
   ActivityIndicator,
-  Text
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import HeaderList from '../components/HeaderList';
 import EpisodeDisplay from '../components/EpisodeDisplay';
-import {AllCall} from '../helpers/APIcalls';
+import {AllCall, UpdateCall} from '../helpers/APIcalls';
 
 import colors from '../constants/colors';
 
@@ -23,11 +23,13 @@ const screen = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    marginTop: screen.height*0.1
   },
   bgimage: {
     flex: 1,
+    width: screen.width*1,
     height: screen.height * 1,
+    alignItems: 'center',
+    justifyContent:'center',
   },
   waiting:{
     alignItems: 'center',
@@ -35,44 +37,35 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   content: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent:'center',
-    marginTop: 10,
-  },
-  text: {
-    fontWeight: 'bold',
-    color: colors.green,
-    fontSize: 22,
-    textAlign: 'center',
-    marginBottom: 20,
-    textDecorationLine: 'underline',
-    textDecorationColor: colors.green,
-  },
+    width: screen.width*0.85
+  }
 });
 
 const Episodes = (props) => {
-  const {getAllEpisodes} = props;
-  const {episodesList} = props.episodes; 
+  const {getAllEpisodes, updateEpisodes, navigation} = props;
+  const {episodesList, next} = props.episodes; 
+  const [isloading, setisLoading] = useState(true);
 
   useEffect(() => {
     getAllEpisodes('episode');
+    setisLoading(false);
   }, []);
-
+  
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor={colors.black} />
       <ImageBackground source={require('../assets/images/background4.jpg')} resizeMode="cover" style={styles.bgimage}>
-        {props.episodes.pending ? (
+        {isloading ? (
           <ActivityIndicator color={colors.yellow} size="large" style={styles.waiting} />
           ):(
             <View style={styles.content}>
-              <Text syle={styles.text}>CHARACTERS</Text>
               <FlatList                
                 data={episodesList}
-                renderItem={({ item }) => (<EpisodeDisplay key={item} item={item} />)}
+                renderItem={({ item }) => (<EpisodeDisplay key={item} item={item} onButtonPress={()=>{navigation.navigate('EpisodeDetail', {title: item.name, id: item.id})}} />)}
                 keyExtractor={item => item.url}
+                onEndReached={next !==null ? async () => updateEpisodes(next):null}
+                onEndReachedThreshold={0.5}
+                ListHeaderComponent={<HeaderList category="EPISODES" />}
               />
             </View>
         )}
@@ -91,6 +84,7 @@ Episodes.propTypes = {
     episodesList: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   getAllEpisodes: PropTypes.func.isRequired,
+  updateEpisodes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -106,6 +100,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getAllEpisodes: AllCall,
+  updateEpisodes: UpdateCall
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Episodes);

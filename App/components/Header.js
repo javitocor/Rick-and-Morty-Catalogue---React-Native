@@ -14,24 +14,12 @@ const screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container:{
-    flex:1,
     width: screen.width*1,
     height:screen.height*0.1,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: colors.black,
-  },
-  headerTextTop:{
-    textAlign: 'center',
-    color: colors.yellow,
-    fontSize: 8,
-  },
-  headerTextBottom: {
-    textAlign: 'center',
-    color: colors.yellow,
-    fontSize: 13,
-    fontWeight: 'bold',
   },
   back:{
     alignItems: 'flex-start',
@@ -43,6 +31,7 @@ const styles = StyleSheet.create({
     width: screen.width*0.6,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 8
   },
   right: {
     width: screen.width*0.2,
@@ -51,7 +40,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '100%',
+    height: undefined,
+    aspectRatio: 1,
   },
   imageIcon: {
     width: 30,
@@ -73,7 +63,7 @@ function Header(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.center}>
-        <ImageBackground source={require('../assets/images/logo.png')} resizeMode="cover" style={styles.image} />
+        <ImageBackground source={require('../assets/images/logo.png')} resizeMode="contain" style={styles.image} />
       </View>
       <View style={styles.right}>
         <Image source={require('../assets/images/icon.png')} resizeMode="cover" style={styles.imageIcon} />

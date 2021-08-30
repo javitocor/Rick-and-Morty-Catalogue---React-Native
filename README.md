@@ -21,7 +21,7 @@
 
 # Rick and Morty Catalogue - React Native
 
->  A mobile app calling to Rick and Morty API to get all the characters, locations and episodes of your favourite TV show, with a searchscreento make it easier. Built with React Native & Redux.
+>  A mobile app calling to Rick and Morty API to get all the characters, locations and episodes of your favourite TV show, with a search screen to make it easier. Built with React Native & Redux.
 
 Additional description about the project and its features.
 

@@ -121,3 +121,14 @@ export const UpdateCall = (route) => async dispatch => {
     } 
   }
 };
+
+export const GetInfo = async (link) => {
+  try{
+    const response = await fetch(link, { mode: 'cors' });
+    const data = await response.json();
+    
+    return data;
+  } catch (error) {
+    console.log(error)
+  }  
+}

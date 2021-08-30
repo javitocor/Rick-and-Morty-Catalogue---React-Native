@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import Home from '../screens/Home';
 import Episodes from '../screens/Episodes';
 import EpisodeDetail from '../screens/EpisodeDetail';
@@ -20,9 +19,9 @@ const EpisodeStack = createStackNavigator();
 
 function EpisodeStackScreen() {
   return (
-    <EpisodeStack.Navigator>
-      <EpisodeStack.Screen name="EpisodesScreen" component={Episodes} options={{header: (props) => <Header {...props} />}} />
-      <EpisodeStack.Screen name="EpisodeDetail" component={EpisodeDetail} options={{header: (props) => <Header {...props} />}} />
+    <EpisodeStack.Navigator screenOptions={{ initialRouteName: "EpisodesScreen", header: (props) => <Header {...props} /> }}>
+      <EpisodeStack.Screen name="EpisodesScreen" component={Episodes} />
+      <EpisodeStack.Screen name="EpisodeDetail" component={EpisodeDetail} option={{unmountOnBlur: true }} />
     </EpisodeStack.Navigator>
   );
 }
@@ -31,9 +30,9 @@ const LocationStack = createStackNavigator();
 
 function LocationStackScreen() {
   return (
-    <LocationStack.Navigator>
-      <LocationStack.Screen name="LocationsScreen" component={Locations} options={{header: (props) => <Header {...props} />}} />
-      <LocationStack.Screen name="LocationDetail" component={LocationDetail} options={{header: (props) => <Header {...props} />}} />
+    <LocationStack.Navigator screenOptions={{ initialRouteName: "LocationsScreen", header: (props) => <Header {...props} /> }}>
+      <LocationStack.Screen name="LocationsScreen" component={Locations} />
+      <LocationStack.Screen name="LocationDetail" component={LocationDetail} />
     </LocationStack.Navigator>
   );
 }
@@ -42,9 +41,9 @@ const CharacterStack = createStackNavigator();
 
 function CharacterStackScreen() {
   return (
-    <CharacterStack.Navigator>
-      <CharacterStack.Screen name="CharactersScreen" component={Characters} options={{header: (props) => <Header {...props} />}} />
-      <CharacterStack.Screen name="CharacterDetail" component={CharacterDetail} options={{header: (props) => <Header {...props} />}} />
+    <CharacterStack.Navigator screenOptions={{ initialRouteName: "CharactersScreen", header: (props) => <Header {...props} /> }}>
+      <CharacterStack.Screen name="CharactersScreen" component={Characters} />
+      <CharacterStack.Screen name="CharacterDetail" component={CharacterDetail} />
     </CharacterStack.Navigator>
   );
 }
@@ -53,9 +52,9 @@ const SearchStack = createStackNavigator();
 
 function SearchStackScreen() {
   return (
-    <SearchStack.Navigator>
-      <SearchStack.Screen name="SearchScreen" component={Search} options={{header: (props) => <Header {...props} />}} />
-      <SearchStack.Screen name="SearchDetail" component={SearchDetail} options={{header: (props) => <Header {...props} />}} />
+    <SearchStack.Navigator screenOptions={{  initialRouteName: "SearchScreen", header: (props) => <Header {...props} /> }}>
+      <SearchStack.Screen name="SearchScreen" component={Search} />
+      <SearchStack.Screen name="SearchDetail" component={SearchDetail} />
     </SearchStack.Navigator>
   );
 }
@@ -93,9 +92,39 @@ function TabNavigation() {
     })}
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name="Characters" component={CharacterStackScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Episodes" component={EpisodeStackScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Locations" component={LocationStackScreen} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="Characters"
+        component={CharacterStackScreen}
+        options={{ headerShown: false }} 
+        listeners={({ navigation }) => ({
+        tabPress: (e) => {
+          e.preventDefault();
+          navigation.navigate('Characters', {screen: 'CharactersScreen' });
+        },
+      })}
+      />
+      <Tab.Screen
+        name="Episodes"
+        component={EpisodeStackScreen}
+        options={{ headerShown: false }} 
+        listeners={({ navigation }) => ({
+        tabPress: (e) => {
+          e.preventDefault();
+          navigation.navigate('Episodes', {screen: 'EpisodesScreen' });
+        },
+      })}
+      />
+      <Tab.Screen
+        name="Locations"
+        component={LocationStackScreen}
+        options={{ headerShown: false }} 
+        listeners={({ navigation }) => ({
+        tabPress: (e) => {
+          e.preventDefault();
+          navigation.navigate('Locations', {screen: 'LocationsScreen' });
+        },
+      })}
+      />
       <Tab.Screen name="Search" component={SearchStackScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );

@@ -63,7 +63,7 @@ const Characters = (props) => {
             <View style={styles.content}>
               <FlatList                
                 data={charactersList}
-                renderItem={({ item }) => (<CharacterDisplay key={item} item={item} onButtonPress={()=>{navigation.navigate('CharacterDetail', {title: item.name, id: item.id})}} />)}
+                renderItem={({ item }) => (<CharacterDisplay key={item} item={item} onButtonPress={()=>{navigation.navigate('CharacterDetail', {id: item.id})}} />)}
                 keyExtractor={item => item.url}
                 showsHorizontalScrollIndicator={false}
                 ListHeaderComponent={<HeaderList category="CHARACTERS" />}

@@ -23,6 +23,18 @@
 
 >  A mobile app calling to Rick and Morty API to get all the characters, locations and episodes of your favourite TV show, with a search screen to make it easier. Built with React Native & Redux.
 
+Landing Page:
+![screenshot](./assets/home.png)
+
+Characters Page:
+![screenshot](./assets/characters.png)
+
+Search Page:
+![screenshot](./assets/search.png)
+
+Episodes Page:
+![screenshot](./assets/episodes.png)
+
 Additional description about the project and its features.
 
 ## Built With

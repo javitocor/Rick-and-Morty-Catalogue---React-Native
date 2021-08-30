@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  footer: {
+  }
 });
 
 const FooterList = ({onButtonPress, loading}) => {
@@ -44,7 +46,7 @@ const FooterList = ({onButtonPress, loading}) => {
             color={colors.green}
             style={{marginLeft: 8}}
           />
-          ) : null}
+          ) : <View style={styles.footer} />}
       </TouchableOpacity>
     </View>
   );

@@ -125,7 +125,7 @@ function TabNavigation() {
         },
       })}
       />
-      <Tab.Screen name="Search" component={SearchStackScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Search" component={SearchStackScreen} options={{ headerShown: false, unmountOnBlur:true }} />
     </Tab.Navigator>
   );
 }

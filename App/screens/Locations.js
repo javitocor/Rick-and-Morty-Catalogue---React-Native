@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   content: {
-    width: screen.width*0.85
+    width: screen.width*0.85,
   }
 });
 

@@ -15,7 +15,7 @@ const searchReducer = (state = initialStateSearch, action) => {
         param: action.param,
         value: action.value,
         resource: action.resource,
-        charactersList: action.charactersList,
+        searchResults: action.searchResults,
       };
     case GET_SEARCHES_PENDING:
       return {

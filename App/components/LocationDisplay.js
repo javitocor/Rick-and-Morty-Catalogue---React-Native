@@ -10,7 +10,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import colors from '../constants/colors';
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginBottom: 10,
+  },
   button:{
     paddingHorizontal: 20,
     paddingVertical: 16,
